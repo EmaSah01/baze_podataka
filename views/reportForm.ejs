@@ -1,0 +1,55 @@
+<!-- views/reportForm.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Form</title>
+</head>
+<body>
+<h2>Odaberi Report</h2>
+
+<form id="reportForm">
+    <label for="reportType">Select Report:</label>
+    <select id="reportType" name="reportType">
+        <option value="IzvjestajProdanihLjubimaca">IzvjestajProdanihLjubimaca</option>
+        <option value="PregledNabavljenihLjubimacaPoDobavljacu">PregledNabavljenihLjubimacaPoDobavljacu</option>
+        <option value="ZbirniPregledProdajeLjubimaca">ZbirniPregledProdajeLjubimaca</option>
+    </select>
+
+    <br>
+
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" required>
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" required>
+
+    <br>
+
+    <button type="button" onclick="callReport()">Generate Report</button>
+</form>
+
+<div id="reportResult">
+    <!-- Report result will be displayed here -->
+</div>
+
+<script>
+    async function callReport() {
+        const reportType = document.getElementById('reportType').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        try {
+            const response = await fetch(`/generateReport/${reportType}?startDate=${startDate}&endDate=${endDate}`);
+            const result = await response.text();
+
+            document.getElementById('reportResult').innerHTML = result;
+        } catch (error) {
+            console.error('Error calling report:', error);
+        }
+    }
+</script>
+</body>
+</html>

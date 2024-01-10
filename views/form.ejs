@@ -1,0 +1,34 @@
+<!-- form.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unos Cjenovnika</title>
+</head>
+
+<body>
+<h1>Unos Cjenovnika</h1>
+<form action="/insertPricing" method="post">
+    <!-- Zaglavlje Cjenovnika -->
+    <label for="datumPromjene">Datum Promjene:</label>
+    <input type="date" id="datumPromjene" name="datumPromjene" required><br>
+
+    <label for="napomena">Napomena:</label>
+    <textarea id="napomena" name="napomena" rows="4" cols="50"></textarea><br>
+
+    <!-- Stavke Cjenovnika -->
+    <label for="idLjubimci">ID ljubimca:</label>
+    <input type="number" id="idLjubimci" name="idLjubimci" required><br>
+
+    <label for="cijena">Cijena:</label>
+    <input type="number" step="0.01" id="cijena" name="cijena" required><br>
+
+    <button type="submit">Unesi Cjenovnik</button>
+</form>
+</body>
+
+</html>
+

@@ -1,0 +1,45 @@
+
+<!-- supplierForm.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dobavljači</title>
+</head>
+
+<body>
+<h1>Dobavljači</h1>
+
+<!-- Dodavanje dobavljača -->
+<form action="/addSupplier" method="post">
+    <label for="naziv">Naziv:</label>
+    <input type="text" id="naziv" name="naziv" required>
+    <label for="adresa">Adresa:</label>
+    <input type="text" id="adresa" name="adresa" required>
+    <button type="submit">Dodaj Dobavljača</button>
+</form>
+
+<!-- Pregled dobavljača -->
+<h2>Pregled Dobavljača</h2>
+<ul>
+    <% for (const supplier of suppliers) { %>
+        <li>
+            <strong>ID:</strong> <%= supplier.id_dobavljaca %>,
+            <strong>Naziv:</strong> <%= supplier.naziv %>,
+            <strong>Adresa:</strong> <%= supplier.adresa %>
+            <!-- Dodajte dugmad za ažuriranje i brisanje, koristeći odgovarajuće putanje -->
+            <form action="/updateSupplier/<%= supplier.id_dobavljaca %>" method="get">
+                <button type="submit">Ažuriraj</button>
+            </form>
+            <form action="/deleteSupplier/<%= supplier.id_dobavljaca %>" method="post">
+                <button type="submit">Obriši</button>
+            </form>
+        </li>
+    <% } %>
+</ul>
+</body>
+
+</html>

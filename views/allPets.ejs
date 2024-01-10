@@ -1,0 +1,20 @@
+
+<!-- allPets.ejs -->
+<html lang="en">
+<head>
+    <!-- Add your head content here -->
+</head>
+<body>
+<h1>All Pets</h1>
+<ul>
+    <% pets.forEach(pet => { %>
+        <li>
+            <strong><%= pet.ljubimac_naziv %></strong> -
+            Kategorija: <%= pet.kategorija_naziv %>,
+            Subkategorija: <%= pet.podkategorija_naziv %>
+            <a href="/petDetails/<%= pet.id_ljubimci %>">Details</a>
+        </li>
+    <% }); %>
+</ul>
+</body>
+</html>
