@@ -9,7 +9,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'styles')));
 
-// Route to get all table names
+
 app.get('/getTables', async (req, res) => {
     try {
         const [tables] = await promisePool.query(
@@ -25,7 +25,6 @@ app.get('/getTables', async (req, res) => {
     }
 });
 
-// Route to get data from a specific table
 app.get('/getTableData/:tableName', async (req, res) => {
     const tableName = req.params.tableName;
 
@@ -43,7 +42,6 @@ app.get('/getTableData/:tableName', async (req, res) => {
 });
 
 
-// Add this route to your app.js or routes file
 app.get('/allPets', async (req, res, next) => {
     try {
         const query = `
@@ -67,8 +65,6 @@ app.get('/allPets', async (req, res, next) => {
     }
 });
 
-
-// Add this route to your app.js or routes file
 app.get('/petDetails/:petId', async (req, res, next) => {
     const petId = req.params.petId;
 
@@ -92,7 +88,6 @@ app.get('/reportForm', (req, res) => {
 });
 
 
-// Add this route to your app.js or routes file
 app.get('/generateReport/:reportType', async (req, res, next) => {
     const reportType = req.params.reportType;
     const startDate = req.query.startDate;
@@ -100,22 +95,16 @@ app.get('/generateReport/:reportType', async (req, res, next) => {
 
     try {
         let query;
-        let columns;
 
         switch (reportType) {
             case 'IzvjestajProdanihLjubimaca':
                 query = 'CALL IzvjestajProdanihLjubimaca(?, ?)';
-                columns = ['ljubimac' , 'datum-prodaje' , 'cijena'];
                 break;
             case 'PregledNabavljenihLjubimacaPoDobavljacu':
                 query = 'CALL PregledNabavljenihLjubimacaPoDobavljacu(?, ?)';
-                // Adjust columns based on the result of your stored procedure
-                columns = ['column1'];
                 break;
             case 'ZbirniPregledProdajeLjubimaca':
                 query = 'CALL ZbirniPregledProdajeLjubimaca(?, ?)';
-                // Adjust columns based on the result of your stored procedure
-                columns = ['columnA'];
                 break;
             default:
                 throw new Error('Invalid report type');
@@ -123,7 +112,7 @@ app.get('/generateReport/:reportType', async (req, res, next) => {
 
         const [reportResult] = await promisePool.query(query, [startDate, endDate]);
 
-        res.render('reportResult', { columns, reportResult });
+        res.render('reportResult', {  reportResult });
     } catch (error) {
         next(error);
     }
@@ -132,7 +121,7 @@ app.get('/generateReport/:reportType', async (req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/form', (req, res) => {
-    res.render('form'); // Promenite 'form' na stvarno ime vašeg ejs fajla
+    res.render('form');
 });
 
 
@@ -163,11 +152,8 @@ app.post('/insertPricing', async (req, res, next) => {
 });
 
 
-// app.js
 
-// ... (ostatak vašeg koda)
 
-// Prikazivanje forme za dodavanje, brisanje, ažuriranje i pregled dobavljača
 app.get('/supplierForm', async (req, res) => {
     try {
         // Pribavljanje podataka o dobavljačima iz baze podataka
@@ -181,15 +167,14 @@ app.get('/supplierForm', async (req, res) => {
     }
 });
 
-// Dodavanje novog dobavljača
+
 app.post('/addSupplier', async (req, res) => {
     const { naziv, adresa } = req.body;
 
     try {
-        // Unos novog dobavljača u bazu podataka
         await promisePool.query('INSERT INTO dobavljaci (naziv, adresa) VALUES (?, ?)', [naziv, adresa]);
 
-        // Preusmeravanje na rutu sa pregledom dobavljača
+
         res.redirect('/supplierForm');
     } catch (error) {
         console.error(error);
@@ -197,17 +182,12 @@ app.post('/addSupplier', async (req, res) => {
     }
 });
 
-// Ažuriranje dobavljača
+
 app.get('/updateSupplier/:supplierId', async (req, res) => {
     const supplierId = req.params.supplierId;
-
-    // Implementirajte logiku za prikazivanje forme za ažuriranje sa podacima o određenom dobavljaču
-    // ...
-
-    // Očekuje se da postoji ruta koja rukuje ažuriranjem na osnovu podataka iz forme
 });
 
-// Brisanje dobavljača
+
 app.post('/deleteSupplier/:supplierId', async (req, res) => {
     const supplierId = req.params.supplierId;
 
@@ -222,8 +202,6 @@ app.post('/deleteSupplier/:supplierId', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
-// ... (ostatak vašeg koda)
 
 
 const PORT = process.env.PORT || 3000;
